@@ -1,0 +1,56 @@
+Example of endpoint:
+from huggingface_hub import InferenceClient
+
+client = InferenceClient(
+	provider="replicate",
+	api_key=""
+)
+
+# output is a PIL.Image object
+image = client.text_to_image(
+	"Astronaut riding a horse",
+	model="stabilityai/stable-diffusion-3.5-medium"
+)
+
+Visit the following URL, and create me a Kaggle starter notebook for this project.
+https://www.kaggle.com/code/dster/drawing-with-llms-starter-notebook/notebook
+
+Use the Kaggle reference as guideance:
+https://www.kaggle.com/docs/packages
+
+Do additional research and planning as needed.
+
+Steps:
+Download Models:
+https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/blob/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf
+https://huggingface.co/city96/stable-diffusion-3.5-medium-gguf/blob/main/sd3.5_medium-Q4_K_M.gguf
+
+Take in user message/prompt.
+Enhance the prompt using DeepSeek-R1-Distill-Qwen-1.5B
+Pass to prompt to Stable Diffusion and generate temporary image.
+Use image-to-svg to convert image to SVG graphic.
+Export the finale graphic to "out"
+
+Improvements:
+Use LoRA and Vae to improve the output.
+
+Sample Promts:
+A cat sitting on a cloud
+Picture of a unicorn.
+Butterfly flying around.
+
+Resources:
+https://github.com/Bhomik04/image-to-svg
+
+
+
+Structure:
+src\		Location for libraries & code
+out\		Output directory for the SVG's
+temp\		Location for temporary graphics
+execute.py	Runs the code
+
+Resources:
+https://github.com/Bhomik04/image-to-svg
+
+

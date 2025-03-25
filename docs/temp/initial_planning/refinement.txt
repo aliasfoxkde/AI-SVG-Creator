@@ -1,0 +1,36 @@
+Generate Quality SVG Image
+
+Methods:
+- Generate graphic with limited colors and trace
+- Build using examples from the ground up
+- One shot using samples & prompts.
+
+
+Step 1: Generate the reference Graphic
+SYSTEM: Use smooth shapes, playfull and whimsical, cartoon-style; use symbolism over realistic that clearly represents the users request. Use clean and refined lines. LIMIT TO ONLY 8 COLORS!
+USER: Can you draw me an image of a magical unicorn?
+
+Create 4 images and pick the best one.
+Refine the image with a criteria checklist, generate 4 more and pick the best.
+
+Generate the SVG Graphic:
+Please generate an SVG graphic from the image provided.
+Use refence examples, prompt, etc.
+
+Validate that the SVG output meets the criteria, else refine/try again.
+
+Move to Kaggle Notebook
+Download LLM(s)
+
+
+Notes:
+DIRECTIVE: Use smooth shapes, cartoon or anime style, more symbolic than realistic, and limit to 8 colors.
+
+Can you draw me an image of a magical unicorn with smooth shapes, more symbolic, and limit to 8 colors?
+
+Convert the graphic
+
+
+
+
+The image depicts a cartoon-style unicorn standing on a grassy hill under a blue sky with clouds and a moon. The unicorn has a white body with a flowing mane and tail that are purple and pink. It also has golden horns and a small golden horn on its forehead. The unicorn appears to be in a playful pose, with one front leg raised as if it is about to take a step or dance. The overall scene is whimsical and magical, evoking a sense of fantasy and wonder.

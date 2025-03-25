@@ -1,0 +1,43 @@
+Generate Quality SVG Image
+
+## Prompt Enhancer
+Convert questions into statements with details
+Use: Qwen2.5 0.5B or DeepSeek Distilled Qwen2.5 1.5B GGUF Models
+USER: Can you draw me an image of a magical unicorn?
+
+## Generate the reference Graphic
+SYSTEM: Use a white background; Use smooth shapes, playful and whimsical, cartoon-style; use symbolism over realistic that clearly represents the users request. Use clean and refined lines. LIMIT TO ONLY 2 COLORS!
+Use: TinySD or Stable Diffusion 3.5 (small; quantized) with LoRA adapter.
+
+## Select the "best" image
+Create 4 images and pick the best one.
+
+## Cleanup the graphic
+
+## Generate the SVG Graphic:
+- 
+
+
+Todo:
+- Move to Kaggle Notebook
+- Download LLM(s)
+- Testing
+
+Resources:
+https://svgstud.io/generator.html
+https://github.com/Bhomik04/image-to-svg
+https://civitai.com/models/22530/guide-make-your-own-loras-easy-and-free
+
+HuggingFace:
+https://huggingface.co/jcamp42/lora-stable-diffusion-svg/tree/main
+
+encodeURIComponent
+token
+handleTokenRequest
+
+Example prompts (enhanced):
+ A majestic silver unicorn galloping through a bioluminescent forest, its pearlescent mane trailing stardust. The horn glows with prismatic light, casting rainbows across ancient stone ruins covered in glowing violet moss. Tiny star-shaped fairies ride on its back, laughing as they scatter golden pollen. The scene is bathed in ethereal moonlight filtering through towering crystal trees, with a misty waterfall shimmering in the background. Style: Hyper-realistic textures blended with Studio Ghibli’s dreamlike whimsy, vibrant jewel tones, and soft cinematic bokeh. Mood: Serene yet awe-inspiring, with a touch of ancient mystery.
+
+ A triumphant goose standing on an Olympic podium, wearing a gold medal around its long neck. Its wings are raised victoriously as rainbow-hued fireworks explode overhead. The crowd below is a mix of cheering animals: ducks in tiny Team USA jackets, rabbits holding ‘GO GOOSE!’ banners, and a teary-eyed coach bear clutching a stopwatch. Hyper-realistic, dramatic lighting with golden-hour sunbeams highlighting the goose’s feathers, cinematic composition, 8K detail. Style: Pixar-meets-Disney-animation with a touch of absurdist humor.
+
+ A serene, whimsical scene of a fluffy, silver-gray Persian cat with luminous green eyes, curled contentedly atop a billowing, cotton-like cloud. The cloud glows softly with golden sunlight, set against a vast, gradient sky transitioning from warm peach to lavender at dusk. Delicate sparkles and tiny stars float around the cat, while the cloud’s edges shimmer with a faint iridescence. Below, a distant earthscape of rolling hills and a shimmering river reflects the twilight hues. The cat’s fur ripples gently in the breeze, and its tail sways playfully, blending ethereal translucence with hyper-realistic texture. Soft, diffused lighting creates a dreamlike atmosphere, rendered in a blend of anime-inspired fantasy and photorealistic detail, with soft pastel accents and intricate, glowing patterns on the cat’s collar

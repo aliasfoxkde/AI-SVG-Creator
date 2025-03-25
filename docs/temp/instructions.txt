@@ -1,0 +1,34 @@
+Visit the following URL, and create me a Kaggle starter Notebook for this project:
+https://www.kaggle.com/code/dster/drawing-with-llms-starter-notebook/notebook
+
+Use the Kaggle reference as guidance:
+https://www.kaggle.com/docs/packages
+
+Do additional research and planning as needed.
+
+Steps:
+Download Models:
+https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/blob/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf
+https://huggingface.co/segmind/tiny-sd
+
+SD model generates the image and writes it to a temporary file. It DOES NOT generate any code. No need to use matplotlib either. Keep to the constraints.
+The Model's predict method would:
+1. Use DeepSeek to enhance the user's prompt.
+2. Use the TinySD (Stable Diffusion) model to generate the temporary PNG image.
+4. Convert the PNG to SVG using image-to-svg.
+5. Cleanup the "temp" folder
+5. Return the SVG code.
+
+Additionally, use LoRA and Vae to improve the output.
+Use if __main__ block for best import/use practices.
+
+Sample Promts:
+A cat sitting on a cloud
+Picture of a unicorn.
+Butterfly flying around.
+
+Resources:
+https://github.com/Bhomik04/image-to-svg
+
+Example of a tool that does what I want (but JS and uses API):
+https://svgstud.io/generator.html

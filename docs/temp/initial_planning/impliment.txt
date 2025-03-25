@@ -1,0 +1,13 @@
+Framework around the AI:
+* Create code that validates the SVG output and that it meets the constraints (otherwise send it back through)
+* Use AI to analyse the output and refine if inaccurate.
+* Once an "acceptable" version is made, send back through to do a second and third pass. Use the AI to analyse the image to determine if the improvements were made and that they are in-fact "better". 
+* "Give up" and choose the "best" attempt after 5 tries.
+* Repeat.
+
+class ai_svg_creator:
+    def __init__(self): pass
+    def svg_refiner(): pass
+    def svg_analyzer(): pass
+    def svg_ranker(): pass
+    def svg_validation(): pass

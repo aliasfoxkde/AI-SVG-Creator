@@ -1,0 +1,31 @@
+Instructions:
+* Visualize a reference image from your dataset; simply it, reducing it's colors and shape to reconstruct it accurately. Create shape elements that trace the likeness.
+* Top-Down Approach: Start with a simple image and simplify it further by reducing shapes, colors, etc.
+* Don't use Basic Shapes and don't merge them; keep them as separate elements. Simply create layers to improve visualization but reducing complexity.
+* Layers for Visualization: Use groups (<g>) with comments for clarity.
+Consistent Styling: Apply styling directly with attributes or use CSS.
+* Accuracy Over Performance: Focus on making the SVG look like a unicorn rather than optimizing for speed.
+* Positioning and Validation: Ensure elements are correctly placed and the SVG is accurate.
+* Handle Units Properly: Use unitless numbers for attributes like cx, cy, etc.
+* Valid XML: Ensure the SVG is well-formed with proper nesting and attributes; Confirm positioning of elements and validate that the result is acccurate.
+* Produce Valid XML and final SVG and style the results with color.
+
+After initial version, refine again and confirm that all constraints and rules have been followed. I want to see a beutiful and well defined vector masterpiece!
+
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <title>Unicorn Icon</title>
+  <desc>A simple unicorn illustration.</desc>
+  <g id="unicorn">
+    <ellipse cx="50" cy="50" rx="30" ry="20" fill="white" stroke="black" stroke-width="2" />
+    <rect x="30" y="70" width="5" height="30" fill="white" stroke="black" stroke-width="2" />
+  </g>
+</svg>
+
+Use these instructions to create an SVG of a unicorn.
+
+
+
+Rulesgroq
+
+Part LLM, part ImageGen and Image analysis
+Confirm with image analysis; reiterate;

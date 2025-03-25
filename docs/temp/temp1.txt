@@ -1,0 +1,125 @@
+# Setup
+%cd /kaggle/input/kcomfyui/KComfyUI/custom_nodes/GGUF
+!pip install -r requirements.txt
+%cd /kaggle/input/kcomfyui/KComfyUI/custom_nodes/ToSVG
+!pip install -r requirements.txt
+
+%cd /kaggle/input/kcomfyui/KComfyUI
+!pip install -r requirements.txt
+!pip install cairosvg
+
+# Download drawing-with-llms
+# Download flux1-dev-q4_k
+
+# Imports
+import torch
+import cairosvg
+import pandas as pd
+from nodes import CheckpointLoaderSimple, CLIPTextEncode, KSampler, VAEDecode, SaveImage, EmptyLatentImage, DualCLIPLoader, VAELoader
+from custom_nodes.GGUF.nodes import UnetLoaderGGUF
+from custom_nodes.ToSVG.svgnode import ConvertRasterToVectorColor
+from IPython.display import Image 
+
+# Load Model
+checkpoint_loader = UnetLoaderGGUF()
+clip_loader = DualCLIPLoader()
+vae_loader = VAELoader()
+
+model = checkpoint_loader.load_unet(unet_name='/kaggle/input/flux1-dev-q2_k/pytorch/default/2/flux1-dev-Q2_K.gguf')
+vae = vae_loader.load_vae(vae_name='/kaggle/input/flux1-dev-q2_k/pytorch/default/2/ae.safetensors')
+clip = clip_loader.load_clip(clip_name1='/kaggle/input/flux1-dev-q2_k/pytorch/default/2/t5xxl_fp8_e4m3fn.safetensors', 
+                             clip_name2='/kaggle/input/flux1-dev-q2_k/pytorch/default/2/clip_l.safetensors', type='flux')
+
+# Get prompts from training data
+prompts = pd.read_csv('/kaggle/input/drawing-with-llms/train.csv')
+primer = ""
+svg_instructions = ""
+negative_prompt = ""
+
+# Prompt Enhancer
+# Convert graphic to SVG
+
+prompt = "A majestic silver unicorn galloping through a bioluminescent forest."
+
+clip_text_encode = CLIPTextEncode()
+positive_conditioning = clip_text_encode.encode(
+    # text=f"flat vector design of {prompt}, monochromatic, minimal objects, black and white only, clean black background,with continuous single-line drawing as much as possible",
+    # text=f"Flat vector design of {prompt}, monochromatic, minimal objects, black and white only, clean black background,with continuous single-line drawing as much as possible. Use a white background; Use smooth shapes, playful and whimsical, cartoon-style; use symbolism over realistic that clearly represents the users request. Use clean and refined lines. LIMIT TO ONLY 2 COLORS!",
+    text=f"Flat vector design of {prompt}, monochrome only, minimal objects. Use a clean white background, smooth shapes, playful and whimsical, cartoon-style; use symbolism over realistic that clearly represents the users request. Use clean and refined lines.",
+    clip=clip[0],
+)
+negative_conditioning = clip_text_encode.encode(
+    text="blurry, thin line, shadows",
+    clip=clip[0],
+)
+
+latent_encode = EmptyLatentImage()
+latent_image = latent_encode.generate(width=384, height=384, batch_size=1)
+
+k_sampler = KSampler()
+sampled_image = k_sampler.sample(
+    model=model[0],
+    # seed=143091209577701,
+    seed=-1,
+    # seed=842029,
+    positive=positive_conditioning[0],
+    negative=negative_conditioning[0],
+    latent_image=latent_image[0],
+    steps=4,
+    cfg=1.0,
+    sampler_name="euler a",
+    scheduler="simple",
+    denoise=1.0,
+)
+vae_decode = VAEDecode()
+decoded_image = vae_decode.decode(samples=sampled_image[0], vae=vae[0])
+
+svg_conv = ConvertRasterToVectorColor()
+svg_output = svg_conv.convert_to_svg(
+    image=decoded_image[0].detach(),
+    hierarchical="cutout",
+    # mode="polygon",
+    mode="none",
+    filter_speckle=4,
+    color_precision=6,
+    layer_difference=16,
+    corner_threshold=60,
+    length_threshold=4,
+    max_iterations=10,
+    splice_threshold=45,
+    path_precision=3,
+)
+
+svg_start = svg_output[0][0].find('<svg')
+svg = svg_output[0][0][svg_start:]
+
+png_fromstring = cairosvg.svg2png(bytestring=svg)
+
+max_svg_size: int = 10000
+print(len(svg.encode('utf-8')))
+
+if len(svg.encode('utf-8')) > max_svg_size:
+    print("[NG] SVG is too large!")
+else:
+    print("[OK] SVG is within the limit.")
+
+Image(png_fromstring)
+
+
+To use:
+https://huggingface.co/gaianet/stable-diffusion-3.5-medium-GGUF/blob/main/clip_g-Q4_0.gguf
+https://huggingface.co/gaianet/stable-diffusion-3.5-medium-GGUF/blob/main/sd3.5_medium-Q4_0.gguf
+
+And generate an image into the /kaggle/working/output.png path?
+
+Resources:
+https://www.kaggle.com/code/sunnyvarnawal/drawing-with-llms-starter
+https://www.kaggle.com/docs/packages
+
+tiny-sd/vae
+config.json
+diffusion_pytorch_model.bin
+
+
+Analyse Image & Refine
+Pick best out of 5 attempts?

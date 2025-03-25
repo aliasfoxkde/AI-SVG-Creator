@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI-Powered SVG Generator</title>
+    <meta name="description" content="Generate high-quality vector graphics instantly with our AI-based SVG Generator.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="/static/pegasus.svg">
+
+	<link rel="stylesheet" href="css\styles.css">
+	
+	<!-- Improvements:
+	     - Add "settings" popup with icon.
+		 - Improve UI/X layout, etc.
+		 - Add prompt enhancement
+		 - Create preview box around output images.
+		 - Add Dark/Light modes
+		 - Make app work with light-weight local model
+		 - Convert version to Python code
+		 - Add "Colors" selector (default to 2; black and white)
+		 + Preset defaults
+	-->
+	
+</head>
+<body>
+	<div id="main-container">
+	  <div class="input-panel">
+		<div id="settings_icon">⚙️</div>
+		<h2>AI SVG Generator</h2>
+		<div class="input-group">
+			<!-- <input type="text" id="prompt" placeholder="Choose generation prompt (for instance 'old samurai, side view, nostalgic') and hit enter"> -->
+			<textarea type="text" id="prompt" name="prompt" rows="10" placeholder="Choose generation prompt (for instance 'old samurai, side view, nostalgic') and hit enter."></textarea>
+		</div>
+		
+		<h2>Generated Previews</h2>
+		<div class="svg-container" id="svgContainer">
+			<!-- SVGs will be displayed here -->
+		</div>
+	</div>
+	
+	<div id="settings">
+		<h2>Settings</h2>
+		<div class="slider-container">
+			<label for="detail_level" title="Level of detail.">Detail Level:</label>
+			<select id="detail_level">
+				<option value="minimal">Minimal</option>
+				<option value="low">Low</option>
+				<option value="standard">Standard</option>
+				<option value="high">High</option>
+				<option value="maximal" selected>Maximal</option>
+			</select>
+		</div>
+		<div class="slider-container">
+			<label for="style" title="Style of output.">Colors:</label>
+			<select id="style">
+				<option value="automatic" selected>Automatic</option>
+				<option value="default">Default</option>
+				<option value="cartoon style">Cartoon Style</option>
+				<option value="contour">Contour</option>
+				<option value="icon">Icon</option>
+				<option value="line_art">Line Art</option>
+				<option value="logo">Logo</option>
+				<option value="manga_style">Manga Style</option>
+				<option value="papercut">Papercut</option>
+				<option value="silhouette">Silhouette</option>
+			</select>
+		</div>
+		<div class="slider-container">
+			<label for="seed" title="Controls randomness of generation.">Seed: </label>
+			<input type="number" id="seed">
+		</div>		
+		<div class="slider-container">
+			<label for="n_iterations" title="More iterations take longer but improve quality of results.">Iterations: <span id="iterations_value">20</span></label>
+			<input type="range" id="n_iterations" min="5" max="50" value="20" oninput="updateValue('n_iterations', 'iterations_value')" style="accent-color: var(--primary-color);">
+		</div>
+		<div class="slider-container">
+			<label for="n_samples" title="Number of generations.">
+				Samples: <span id="samples_value">1</span>
+			</label>
+			<input type="range" id="n_samples" min="1" max="20" value="1" oninput="updateValue('n_samples', 'samples_value')">
+		</div>
+		<div class="slider-container">
+			<label for="colors" title="Number of colors.">
+				Colors: <span id="colors">2</span>
+			</label>
+			<input type="range" id="colors" min="1" max="16" value="2" oninput="updateValue('colors', 'color_value')">
+		</div>
+		<div class="slider-container">
+			<label for="width" title="Width of generation">
+				Width: <span id="width_value">768</span>
+			</label>
+			<input type="range" id="width" min="256" max="1024" step="32" value="768" oninput="updateValue('width', 'width_value')">
+		</div>
+		<div class="slider-container">
+			<label for="height" title="Height of generation">
+				Height: <span id="height_value">768</span>
+			</label>
+			<input type="range" id="height" min="256" max="1024" step="32" value="768" oninput="updateValue('height', 'height_value')">
+		</div>
+		<div class="slider-container">
+			<label for="strength" title="Flexibility (Noise Strength): Smaller values increase image guidance">
+				Flexibility: <span id="strength_value">0.7</span>
+			</label>
+			<input type="range" id="strength" min="0.50" max="1.0" step="0.005" value="0.7" oninput="updateValue('strength', 'strength_value')">
+		</div>
+	</div>
+  </div>
+
+	<script src="js/main.js"></script>
+	<script src="js/generate.js"></script>	
+</body>
+</html>
