@@ -1,62 +1,64 @@
-# README
-While beyond the initial scope of this SVG generation tool, it could be very useful 
-(think MCP, etc.) to create animations, video/short, game assets, reading book, 
-or play-through storyline, and more.
+# AI SVG Creator
 
-## Improvements
-- Add animated SVG options
-- Add advanced gradient options
-- Add support for number of colors and transparency
-- Build logic to download and run AI model locally in Kaggle/Jupyter Notebook.
+**Experimental prototype — not a production-ready application.**
 
-## Methodology
-1. Takes in user prompt
-2. Enhance prompt
-3. Generate SVG-like image (using custom VAE, settings, etc.)
-4. Convert image to SVG (cleanup, smoothing, reduce, etc.)
-5. Analyze image to confirm accuracy/confidence (else retry)
-6. Saves the graphic (filename represents initial prompt)
-7. Done.
+An early prompt-to-SVG experiment using Hugging Face inference APIs. The
+repository contains a Python generation/validation prototype and a legacy
+browser UI, but the end-to-end application is not currently integrated or
+verified as runnable.
 
-## Goals
-- Prune and quantize the AI model to reduce it's size by retaining only required functionality.
-- Use the smallest all-in-one model available (Janus Pro 1B; vision, image gen, chat).
+## Current implementation
 
-## Future Scope
-- Create web-based PWA application 
-- Allows for configuring options, etc.
-- Light weight, client side, and fast
+| Area | Current state |
+|---|---|
+| Python SVG generation | `src/ai_svg_creator.py` calls a Hugging Face chat-completions model to request SVG markup |
+| SVG validation | Parses XML and checks a fixed 512×512 `viewBox`, allowed element names, and a minimum output size |
+| Iterative refinement | The prototype can ask the model to analyze a rejected SVG and feed feedback into another attempt |
+| Scoring | A heuristic ranker exists in the Python prototype; it is not a substitute for human or task-specific visual evaluation |
+| Browser interface | Legacy HTML/CSS/JavaScript UI; it calls backend routes that are not implemented by the current Flask placeholder |
+| Packaging and deployment | Not ready: `requirements.txt` and `setup.py` are empty, and no supported deployment workflow is documented |
 
-## Analysis/Grading/Validation (_report): 
-  """Instructions: ONLY return a valid JSON oject: 
-     {"success": "True|False", "valid": "True|False", "confidence": "0-100"}. 
-     {"success": "True|False", "rules_pass": "True|False", "match": "0-100", "confidence": "0-100", "colors": "2-16"}
+## Known blockers
 
-     1. In a broad sense does this image align with the prompt: {prompt}?
-     2. Does the image meet ALL the criteria of the PRIMER? Estimate a percentage match (0-100 ONLY)?
-     3. What is the confidence grade (in percent) you would give it. Number 0-100 ONLY.
-  """
-  - Use SVG Analysis Tool/Code:
-    - How many colors are used in the image (append valid dictionary)?
-    - Determine coverage ratio/percentage of shape/objects to the image.
-    - Filesize is under max constraint?
-  - Make deterministic (or programatic) changes to settings and test again.
-  - Create a comparision line chart after each iterative change
-  - Does the resulting image/SVG meet the constraints and criteria?
-  - Additional context, such as blank image, noisy, etc.
-  - Other uses X number of colors or less, black and white flagging, etc.
-  - Check valid JSON, else return {"success": "Null", "valid": "Null", "confidence": "0"}.
-    - Do Human Eval spot checking for validation.
-    - Retry X number attempts if needed
-  - Reduce colors and smooth programatically BEFORE converting to SVG?
-  - Crush details in image to reduce size if over max (if within range)
-  - Use own CLIP Ranker to get peliminary score before submitting.
-    https://lightning.ai/docs/torchmetrics/stable/multimodal/clip_score.html
-    https://github.com/Taited/clip-score
+- The Python prompt loader references `src\\PRIMER.md`, while the checked-in
+  prompt is under `src/prompts/PRIMER.md`; initialization therefore needs a
+  path fix before the generation class can be considered runnable on a normal
+  checkout.
+- `src/generate_svg.py` uses `os.path` without importing `os`.
+- The Flask `app.py` is an incomplete project-queue sketch: it references
+  `Redis` without importing/configuring it and leaves `process_project` as
+  `pass`.
+- The browser UI calls `/generate/` and `/bookmarks/`, but the current
+  backend does not implement those routes.
+- Some legacy experiment files contain placeholder API-key values. Supply
+  credentials through environment/configuration in any future implementation;
+  never commit real tokens.
 
-## VAE 
-  - Either use VAE directly and refine with a Diffusion Model (imageGen)
-  - Or use VAE with the Diffusion Model directly.
+These are documented as blockers, not silently presented as working features.
+There is currently no supported one-command install or deployment path.
 
-## PWA Development
-  - 
+## Not implemented / future ideas
+
+The following remain proposals, not shipped capabilities:
+
+- Local model download, pruning, or quantization.
+- A VAE/diffusion image-generation pipeline and image-to-SVG conversion.
+- Animated SVG/story composition, timeline editing, or video export.
+- MCP integration, game-asset workflows, and Scratch integration.
+- A complete PWA with offline model execution.
+
+See [Status and recovery plan](docs/STATUS.md) for the current blockers and
+recommended order of work. [PLANNING.md](docs/PLANNING.md) is retained as
+historical ideation rather than a statement of implemented functionality.
+
+## Repository layout
+
+- `src/ai_svg_creator.py` — Hugging Face-backed SVG prompt/refinement prototype.
+- `src/prompts/PRIMER.md` — generation constraints used by the Python prototype.
+- `web/` — legacy browser interface.
+- `app.py` — incomplete Flask project-queue sketch.
+- `docs/` — planning and status documentation.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
